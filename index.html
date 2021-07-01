@@ -1,0 +1,64 @@
+<html lang="pt-BR">
+  <head>
+    <title>Ajax Jquery</title>
+    <meta charset="UTF-8">
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="styles/style.css"/>
+  <!--<script language="JavaScript" src="js/jquery-2.1.1.js"></script>-->
+  <script>
+    $(document).ready(function() {
+
+    //função que exibe gif do loading
+    function loading_show() {
+      $('#load').fadeIn('fast');
+    }
+
+    //função que esconde gif do loading
+    function loading_hide() {
+      $('#load').fadeOut('fast');
+    }
+    //evento que chama a função ajax
+    $('#click').click(function() {
+      var valores = $('#pesquisar').serialize();
+
+      $.ajax({
+        type: 'POST',
+        dataType: 'html',
+        url: 'classes/contato.php',
+        beforeSend: function() { //mostra a imagem de loading após ser iniciada a requisição
+          loading_show();
+        },
+        data: valores, //valores do post do formulário
+        success: function(retorno){
+          loading_hide();
+          $('#result_id').html(retorno).fadeIn();
+        },
+        error: function(error) {
+          loading_hide();
+          $("#result_id").html(error).fadeIn();
+        }
+      });
+    });
+  });
+    </script>
+  </head>
+  <body align="center">
+    <form name="pesquisar" id="pesquisar" method="POST">
+    <fieldset id="formulario">
+      <nav class="navbar navbar-dark bg-primary" style="color: #fff">
+        <legend><img src="images/usinainfo.png" align="left" style="margin-left: 10px"><h3 style="margin-right: 200px">Pesquisar Cadastro de Clientes Por ID</h3></legend>
+      </nav><br>
+      <div align="center">
+        <input class="form-control" type="number" name="IdInicial" id="IdInicial" placeholder="ID Inicial" style="width: 300px; margin-bottom:5px"/>
+        <input class="form-control" type="number" name="IdFinal" id="IdFinal" placeholder="ID Final" style="width: 300px;"/>
+        <input type="button" id="click" name="click" value="Pesquisar" class="btn btn-outline-success" style="margin:5px"/>
+      </div>
+
+    </fieldset>
+    </form>
+    <div id="show">
+        <div id="load"></div>
+        <div id="result_id"></div>
+    </div>
+  </body>
+</html>
