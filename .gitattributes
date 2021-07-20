@@ -1,2 +1,2 @@
 special-vendored-path/* linguist-vendored
-*.css linguist-vendored=true
+*.js linguist-vendored=true
